@@ -1,0 +1,29 @@
+*{
+	color: black;
+	user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+body {
+	font-family: 'Montserrat', sans-serif;
+	background: url(../Screenshot_2.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+i{
+	color: white;
+}
+
+.box{
+    background: #0000009e;
+    color: white;
+    text-align: left;
+    padding-right: 9px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	padding-left: 5px;
+}

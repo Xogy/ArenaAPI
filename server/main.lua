@@ -1,0 +1,107 @@
+ArenaList = {}
+PlayerInfo = {}
+CooldownPlayers = {}
+----------------------------------------
+function ArenaCreatorHelper(identifier)
+    if ArenaList[identifier] ~= nil then return ArenaList[identifier] end
+
+    ArenaList[identifier] = {
+        MaximumCapacity = 0,
+        MinimumCapacity = 0,
+        CurrentCapacity = 0,
+        -----
+        ArenaLabel = "",
+        ArenaIdentifier = identifier,
+        -----
+        MaximumArenaTime = nil,
+        MaximumArenaTimeSaved = nil,
+        MaximumLobbyTimeSaved = 30,
+        MaximumLobbyTime = 30,
+        -----
+        ArenaIsPublic = true,
+        -----
+        PlayerList = {},
+        PlayerScoreList = {},
+        PlayerNameList = {},
+        -----
+        ArenaState = "ArenaInactive",
+        -----
+        EventList = {
+            OnPlayerJoinArena = nil,
+            OnPlayerExitArena = nil,
+            OnArenaStarted = nil,
+            OnArenaEnded = nil,
+        },
+    }
+
+    return ArenaList[identifier]
+end
+
+function GetDefaultDataFromArena(identifier)
+    local arena = ArenaCreatorHelper(identifier)
+    return {
+        ArenaIdentifier = arena.ArenaIdentifier,
+        ArenaLabel = arena.ArenaLabel,
+        MaximumCapacity = arena.MaximumCapacity,
+        MinimumCapacity = arena.MinimumCapacity,
+        CurrentCapacity = arena.CurrentCapacity,
+    }
+end
+
+function SendMessage(source, string)
+    TriggerClientEvent('chat:addMessage', source, {
+        color = { 255, 255, 255 },
+        multiline = true,
+        args = { "[ArenaAPI]", string }
+    })
+end
+
+RegisterCommand("minigame", function(source, args, rawCommand)
+    if args[1] == "join" then
+        local arenaName = args[2]
+        if not IsPlayerInAnyArena(source) then
+            if DoesArenaExists(arenaName) then
+                local arenaInfo = GetDefaultDataFromArena(arenaName)
+                local arena = GetArena(arenaName)
+                if arena.IsArenaPublic() then
+                    if not IsArenaBusy(arenaName) then
+                        if arenaInfo.MaximumCapacity > arenaInfo.CurrentCapacity then
+                            if not IsPlayerInCooldown(source, arenaName) then
+                                arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
+                                GetArena(args[2]).AddPlayer(source)
+                                SendMessage(source, Config.MessageList["arena_joined"])
+                            else
+                                SendMessage(source, string.format(Config.MessageList["cooldown_to_join"], TimestampToString(GetcooldownForPlayer(source, arenaName))))
+                            end
+                        else
+                            SendMessage(source, Config.MessageList["maximum_people"])
+                        end
+                    else
+                        SendMessage(source, Config.MessageList["arena_busy"])
+                    end
+                else
+                    SendMessage(source, Config.MessageList["cant_acces_this_arena"])
+                end
+            else
+                SendMessage(source, Config.MessageList["arena_doesnt_exists"])
+            end
+        else
+            SendMessage(source, Config.MessageList["player_in_arena"])
+        end
+    end
+    if args[1] == "leave" then
+        if IsPlayerInAnyArena(source) then
+            local arenaName = GetPlayerArena(source)
+            if DoesArenaExists(arenaName) then
+                local arena = GetArena(arenaName)
+                CooldownPlayer(source, arenaName, Config.TimeCooldown)
+                arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
+
+                GetArena(arenaName).RemovePlayer(source)
+                SendMessage(source, Config.MessageList["arena_left"])
+            end
+        else
+            SendMessage(source, Config.MessageList["player_isnt_in_arena"])
+        end
+    end
+end, false)
