@@ -87,7 +87,7 @@ function CreateArena(identifier)
         end
     end
     --------
-    self.RemovePlayer = function(source, cb)
+    self.RemovePlayer = function(source, skipEvent)
         if arena.PlayerList[source] ~= nil then
             local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
 
@@ -110,8 +110,7 @@ function CreateArena(identifier)
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
 
             TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData",  ArenaList)
-            TriggerClientEvent("ArenaAPI:sendStatus", source, "leave", data)
-            if cb then cb() end
+            if skipEvent == nil then TriggerClientEvent("ArenaAPI:sendStatus", source, "leave", data) end
         end
     end
     --------
@@ -152,21 +151,27 @@ function CreateArena(identifier)
     --        Basic manipulation arena        --
     --------------------------------------------
     self.Destroy = function()
-        for k,v in pairs(arena.PlayerList) do
-            self.RemovePlayer(k)
-        end
-
         if arena.EventList.OnArenaEnded then
             local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
             arena.EventList.OnArenaEnded(data)
         end
+
+        for k,v in pairs(arena.PlayerList) do
+            self.RemovePlayer(k)
+        end
+
         TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(arena.ArenaIdentifier))
         ArenaList[identifier] = nil
     end
     --------
     self.Reset = function()
+        if arena.EventList.OnArenaEnded then
+            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
+            arena.EventList.OnArenaEnded(data)
+        end
+
         for k,v in pairs(arena.PlayerList) do
-            self.RemovePlayer(k)
+            self.RemovePlayer(k, true)
         end
 
         arena.PlayerList = {}
@@ -174,11 +179,6 @@ function CreateArena(identifier)
         arena.ArenaState = "ArenaInactive"
 
         arena.MaximumArenaTime = arena.MaximumArenaTimeSaved
-
-        if arena.EventList.OnArenaEnded then
-            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-            arena.EventList.OnArenaEnded(data)
-        end
     end
     --------------------------------------------
     --         Basic events for arena         --
