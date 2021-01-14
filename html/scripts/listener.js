@@ -12,6 +12,7 @@ $(function(){
 		var item = event.data;
 		if (item.type === "ui"){
 			display(item.status);
+			$("#seconds").text("Waiting for people");
 		}
 
 		if (item.type === "arenaName"){
