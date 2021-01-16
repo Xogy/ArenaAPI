@@ -3,6 +3,12 @@
 
 ### ArenaAPI functions
 
+------------
+
+#####Once a new arena is created, it can be acces with command: /minigame join [identifier]
+
+------------
+
 ###**Functions (server side)**
 
 ------------
@@ -19,12 +25,8 @@
 
 - DoesArenaExists(string identifier) true/false
 
-- IsPlayerInArena(int source, string name)
+------------
 
-- IsPlayerInAnyArena(int source)
- 
-- GetPlayerArena(int source) returns name of the arena, if he isnt anywhere it will return "none" 
- 
 - IsArenaBusy(string identifier) return true / false
 
 - IsArenaActive(string identifier) return true / false
@@ -37,6 +39,14 @@
  ArenaActive -- people are in lobby
  ArenaBusy -- people playing already
  ```
+
+------------
+
+- IsPlayerInArena(int source, string name)
+
+- IsPlayerInAnyArena(int source)
+ 
+- GetPlayerArena(int source) returns name of the arena, if he isnt anywhere it will return "none" 
 
 ------------
 
@@ -78,7 +88,7 @@ end)
   
 ------------
 
-All functions bellow are from module, so use it like this
+#All functions bellow are from module, so use it like this
 
 ```LUA
 local arenaBuilder = exports.ArenaAPI
@@ -130,10 +140,10 @@ if false that means you will have to use somewhere else this function "AddPlayer
 - IsArenaPublic() true/false (means if you can acces the arena with command /minigame)
 
 ------------
-### Manipulation with arena
+
+**Player manipulation**
 
 ------------
-**Arena class**
 
 - AddPlayer(int source)
 
@@ -146,7 +156,6 @@ if false that means you will have to use somewhere else this function "AddPlayer
 - Destroy() will destroy arena and new one has to be created
 
 ------------
-**Player class**
 
 - SetPlayerScore(int source, string key, object value)
 
@@ -163,10 +172,6 @@ if false that means you will have to use somewhere else this function "AddPlayer
 ------------
 
 ###**Functions (client side)**
-
-------------
-
-### Arena Info
 
 ------------
 
