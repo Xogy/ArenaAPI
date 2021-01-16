@@ -117,7 +117,8 @@ if the value isnt set the arena will be there forever
   How long player have to wait in lobby before letting him into the game,
   if player leave the lobby the timer will reset to this value.
   
-- SetArenaPublic(boolean value) if true player will be able to acces arena from command /arena join [name]  
+- SetArenaPublic(boolean value) <br>
+if true player will be able to acces arena from command /arena join [name]  
 if false that means you will have to use somewhere else this function "AddPlayer(int source)"
 ------------
 
@@ -137,7 +138,7 @@ if false that means you will have to use somewhere else this function "AddPlayer
 
 - GetPlayerList()
 
-- IsArenaPublic() true/false (means if you can acces the arena with command /minigame)
+- IsArenaPublic() <br>true/false (means if you can acces the arena with command /minigame)
 
 ------------
 
@@ -153,7 +154,7 @@ if false that means you will have to use somewhere else this function "AddPlayer
 
 - Reset()
 
-- Destroy() will destroy arena and new one has to be created
+- Destroy() <br>will destroy arena and new one has to be created
 
 ------------
 
