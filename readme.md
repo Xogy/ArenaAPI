@@ -3,7 +3,7 @@
 
 ### ArenaAPI functions
 
-**1. Functions (server side)**
+###**Functions (server side)**
 
 ------------
 
@@ -11,7 +11,9 @@
 
 ------------
 
-- CreateArena(string identifier) <br> returns module of the arena
+- CreateArena(string identifier)  returns module of the arena
+  
+- GetArenaInstance(string identifier) will return an instance of arena
   
 - GetArenaList() will return an array of arenas
 
@@ -42,16 +44,16 @@
 
 ------------
 
-- OnPlayerJoinArena(cb(data))<br>
+- OnPlayerJoinArena( cb(data) )<br>
 Will be called whenever someone join arena
 
-- OnPlayerExitArena(cb(data))<br>
+- OnPlayerExitArena( cb(data) )<br>
 Will be called whenever player leave arena
 The array data returns
 
-- OnArenaStarted(cb(data))
+- OnArenaStarted( cb(data) )
 
-- OnArenaEnded(cb(data))
+- OnArenaEnded( cb(data) )
 ```
 {
     ArenaIdentifier,
@@ -67,7 +69,7 @@ Usage of these events
 ```LUA
 local arenaBuilder = exports.ArenaAPI
 
-local arena = arenaBuilder:GetArena("MyArena")
+local arena = arenaBuilder:GetArenaInstance("MyArena")
 
 arena.PlayerJoinArena(function(data)
     TriggerClientEvent("showNotification", data.source, "Welcome to the arena: " .. data.ArenaLabel)
@@ -79,7 +81,8 @@ end)
 All functions bellow are from module, so use it like this
 
 ```LUA
-local arena = CreateArena("gungame_1")
+local arenaBuilder = exports.ArenaAPI
+local arena = arenaBuilder:CreateArena("gungame_1")
 
 arena.SetMaximumCapacity(10) -- maximum player
 arena.SetMinimumCapacity(2) -- minimum to start
@@ -155,17 +158,11 @@ if false that means you will have to use somewhere else this function "AddPlayer
 
 - PlayerScoreExists(int source, string key)
 
-------------
-
-**2. Functions (client side)**
+- DeleteScore(int source, string key)
 
 ------------
 
-### Get Info from 
-
-------------
-
-
+###**Functions (client side)**
 
 ------------
 

@@ -204,8 +204,8 @@ end
 
 exports("CreateArena", CreateArena)
 
-function GetArena(identifier)
+function GetArenaInstance(identifier)
     return CreateArena(identifier)
 end
 
-exports("GetArena", GetArena)
+exports("GetArenaInstance", GetArenaInstance)
