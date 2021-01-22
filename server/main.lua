@@ -1,14 +1,17 @@
 ArenaList = {}
 PlayerInfo = {}
 CooldownPlayers = {}
+WorldCount = 0
 ----------------------------------------
 function ArenaCreatorHelper(identifier)
     if ArenaList[identifier] ~= nil then return ArenaList[identifier] end
-
     ArenaList[identifier] = {
         MaximumCapacity = 0,
         MinimumCapacity = 0,
         CurrentCapacity = 0,
+        -----
+        OwnWorld = false,
+        OwnWorldID = WorldCount,
         -----
         ArenaLabel = "",
         ArenaIdentifier = identifier,
@@ -62,13 +65,13 @@ RegisterCommand("minigame", function(source, args, rawCommand)
         if not IsPlayerInAnyArena(source) then
             if DoesArenaExists(arenaName) then
                 local arenaInfo = GetDefaultDataFromArena(arenaName)
-                local arena = GetArena(arenaName)
+                local arena = GetArenaInstance(arenaName)
                 if arena.IsArenaPublic() then
                     if not IsArenaBusy(arenaName) then
                         if arenaInfo.MaximumCapacity > arenaInfo.CurrentCapacity then
                             if not IsPlayerInCooldown(source, arenaName) then
                                 arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
-                                GetArena(args[2]).AddPlayer(source)
+                                GetArenaInstance(args[2]).AddPlayer(source)
                                 SendMessage(source, Config.MessageList["arena_joined"])
                             else
                                 SendMessage(source, string.format(Config.MessageList["cooldown_to_join"], TimestampToString(GetcooldownForPlayer(source, arenaName))))
@@ -93,11 +96,11 @@ RegisterCommand("minigame", function(source, args, rawCommand)
         if IsPlayerInAnyArena(source) then
             local arenaName = GetPlayerArena(source)
             if DoesArenaExists(arenaName) then
-                local arena = GetArena(arenaName)
+                local arena = GetArenaInstance(arenaName)
                 CooldownPlayer(source, arenaName, Config.TimeCooldown)
                 arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
 
-                GetArena(arenaName).RemovePlayer(source)
+                GetArenaInstance(arenaName).RemovePlayer(source)
                 SendMessage(source, Config.MessageList["arena_left"])
             end
         else

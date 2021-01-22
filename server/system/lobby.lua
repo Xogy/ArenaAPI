@@ -12,17 +12,25 @@ function UpdateLobbies()
                     if v.EventList.OnArenaStarted then
                         v.EventList.OnArenaStarted(GetDefaultDataFromArena(k))
                     end
+
+                    if v.OwnWorld then
+                        for id, _ in pairs(v.PlayerList) do
+                            SetPlayerRoutingBucket(id, v.OwnWorldID)
+                        end
+                    end
+
                     TriggerClientEvent("ArenaAPI:sendStatus", -1, "start", GetDefaultDataFromArena(k))
                 end
             end
         end
         if IsArenaBusy(k) then
             if v.CurrentCapacity == 0 then
-                GetArena(k).Reset()
+                GetArenaInstance(k).Reset()
             end
         end
     end
 end
+
 SetTimeout(1000, UpdateLobbies)
 
 function UpdateArenaGame()
@@ -34,7 +42,7 @@ function UpdateArenaGame()
                 v.MaximumArenaTime = v.MaximumArenaTime - 1
                 if v.MaximumArenaTime == 0 then
                     v.MaximumArenaTime = v.MaximumArenaTimeSaved
-                    GetArena(k).Reset()
+                    GetArenaInstance(k).Reset()
                     TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(k))
                 end
             end

@@ -1,10 +1,27 @@
+
+
 function CreateArena(identifier)
-    local arena = ArenaCreatorHelper(identifier)
+    ArenaCreatorHelper(identifier)
+    local arena = ArenaList[identifier]
     --------------------------------------------
     local self = {}
     --------------------------------------------
     --     Basic information about arena      --
     --------------------------------------------
+    self.SetOwnWorld = function(result)
+        arena.OwnWorld = result
+        if result then
+            if arena.OwnWorldID == 0 then
+                WorldCount = WorldCount + 1
+                arena.OwnWorldID = WorldCount
+            end
+        end
+    end
+
+    self.GetOwnWorld = function()
+        return arena.OwnWorld,arena.OwnWorldID
+    end
+    --------
     self.SetMaximumCapacity = function(number)
         arena.MaximumCapacity = number
     end
@@ -90,6 +107,8 @@ function CreateArena(identifier)
     self.RemovePlayer = function(source, skipEvent)
         if arena.PlayerList[source] ~= nil then
             local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
+
+            SetPlayerRoutingBucket(source, 0)
 
             PlayerInfo[source] = "none"
             arena.PlayerList[source] = nil

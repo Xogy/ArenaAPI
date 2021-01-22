@@ -110,6 +110,8 @@ arena.SetArenaLabel("Gungame arena #1")
 
 - SetArenaLabel(string name)
 
+- SetOwnWorld(boolean result) when players join to the arena it will create their own world with other players
+
 - SetMaximumArenaTime(int second) <br>This will set for how long the arena can go, 
 if the value isnt set the arena will be there forever
 
@@ -137,6 +139,8 @@ if false that means you will have to use somewhere else this function "AddPlayer
 - GetArenaLabel()
 
 - GetPlayerList()
+
+- GetOwnWorld() return boolean, id of world
 
 - IsArenaPublic() <br>true/false (means if you can acces the arena with command /minigame)
 
