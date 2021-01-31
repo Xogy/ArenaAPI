@@ -13,7 +13,7 @@ function UpdateLobbies()
                         v.EventList.OnArenaStarted(GetDefaultDataFromArena(k))
                     end
 
-                    if v.OwnWorld and v.DeleteWorldAfterWin then
+                    if v.OwnWorld then
                         for id, _ in pairs(v.PlayerList) do
                             SetPlayerRoutingBucket(id, v.OwnWorldID)
                         end

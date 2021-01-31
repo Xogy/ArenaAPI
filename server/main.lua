@@ -12,7 +12,7 @@ function ArenaCreatorHelper(identifier)
         -----
         DeleteWorldAfterWin = true,
         OwnWorld = false,
-        OwnWorldID = WorldCount,
+        OwnWorldID = 0,
         -----
         ArenaLabel = "",
         ArenaIdentifier = identifier,

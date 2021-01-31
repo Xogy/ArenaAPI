@@ -11,9 +11,9 @@ function CreateArena(identifier)
     self.SetOwnWorld = function(result)
         arena.OwnWorld = result
         if result then
-            if arena.OwnWorldID == 0 then
+            if ArenaList[identifier].OwnWorldID == 0 then
                 WorldCount = WorldCount + 1
-                arena.OwnWorldID = WorldCount
+                ArenaList[identifier].OwnWorldID = WorldCount
             end
         end
     end
@@ -112,7 +112,9 @@ function CreateArena(identifier)
         if arena.PlayerList[source] ~= nil then
             local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
 
-            SetPlayerRoutingBucket(source, 0)
+            if arena.DeleteWorldAfterWin then
+                SetPlayerRoutingBucket(source, 0)
+            end
 
             PlayerInfo[source] = "none"
             arena.PlayerList[source] = nil
