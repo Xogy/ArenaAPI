@@ -110,6 +110,8 @@ arena.SetArenaLabel("Gungame arena #1")
 
 - SetArenaLabel(string name)
 
+- RemoveWorldAfterWin(boolean result) if you have something like winner cutscene, set this on false, but you have to send player into world 0 by your code.
+
 - SetOwnWorld(boolean result) when players join to the arena it will create their own world with other players
 
 - SetMaximumArenaTime(int second) <br>This will set for how long the arena can go, 

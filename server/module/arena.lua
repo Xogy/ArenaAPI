@@ -22,6 +22,10 @@ function CreateArena(identifier)
         return arena.OwnWorld,arena.OwnWorldID
     end
     --------
+    self.RemoveWorldAfterWin = function(result)
+        arena.DeleteWorldAfterWin = result
+    end
+    --------
     self.SetMaximumCapacity = function(number)
         arena.MaximumCapacity = number
     end

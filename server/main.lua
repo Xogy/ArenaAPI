@@ -10,6 +10,7 @@ function ArenaCreatorHelper(identifier)
         MinimumCapacity = 0,
         CurrentCapacity = 0,
         -----
+        DeleteWorldAfterWin = true,
         OwnWorld = false,
         OwnWorldID = WorldCount,
         -----
