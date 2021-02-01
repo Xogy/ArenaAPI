@@ -58,6 +58,13 @@ end
 
 exports("GetCurrentArenaData", GetCurrentArenaData)
 
+function OnArenaRoundEnd(arena, cb)
+    InitEventData(arena)
+    EventData[arena].OnArenaRoundEnd = cb
+end
+
+exports("OnArenaRoundEnd", OnArenaRoundEnd)
+
 function OnPlayerJoinArena(arena, cb)
     InitEventData(arena)
     EventData[arena].OnPlayerJoinArena = cb

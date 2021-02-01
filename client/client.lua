@@ -33,6 +33,15 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
         UpdatePlayerNameList()
     end
 
+    if type == "roundEnd" then
+        if ArenaData[arena].MaximumArenaTime then
+            ArenaData[arena].MaximumArenaTime = data.MaximumLobbyTime + 1
+        end
+        if event and event.OnArenaRoundEnd and PlayerData.CurrentArena == arena then
+            event.OnArenaRoundEnd(data)
+        end
+    end
+
     if type == "start" then
         if event and event.OnArenaStarted and PlayerData.CurrentArena == arena then
             event.OnArenaStarted(data)
@@ -45,6 +54,9 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
     if type == "end" then
         if event and event.OnArenaEnded and PlayerData.CurrentArena == arena then
             event.OnArenaEnded(data)
+        end
+        if ArenaData[arena].MaximumArenaTime then
+            ArenaData[arena].MaximumArenaTime = data.MaximumLobbyTime + 1
         end
         if PlayerData.CurrentArena == arena then
             IsArenaBusy = false
@@ -86,7 +98,7 @@ CreateThread(function()
         if IsArenaBusy then
             local arena = GetPlayerArena()
             local data = GetArena(arena)
-            if data.MaximumArenaTime ~= nil then
+            if data.MaximumArenaTime ~= nil and data.MaximumArenaTime > 1 then
                 data.MaximumArenaTime = data.MaximumArenaTime - 1
                 BeginTextCommandPrint('STRING')
                 AddTextComponentSubstringPlayerName(data.MaximumArenaTime .. " seconds left")

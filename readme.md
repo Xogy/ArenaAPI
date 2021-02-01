@@ -54,18 +54,22 @@
 
 ------------
 
-- OnPlayerJoinArena( cb(data) )<br>
+- OnPlayerJoinArena(annon function)<br>
 Will be called whenever someone join arena
 
-- OnPlayerExitArena( cb(data) )<br>
+- OnPlayerExitArena(annon function)<br>
 Will be called whenever player leave arena
 The array data returns
 
-- OnArenaStarted( cb(data) )
+- OnArenaStarted(annon function)
 
-- OnArenaEnded( cb(data) )
+- OnArenaEnded(annon function)
+
+- OnArenaRoundEnd(annon function)
 ```
 {
+    MaximumRoundSaved,
+    CurrentRound,
     ArenaIdentifier,
     ArenaLabel,
     MaximumCapacity,
@@ -103,14 +107,13 @@ arena.SetArenaLabel("Gungame arena #1")
 ### Setting info about arena
 
 ------------
-
 - SetMaximumCapacity(int number)<br>Will set how many people can join to the arena
 
 - SetMinimumCapacity(int number)<br>Will set how many players need to join to start game
 
-- SetArenaLabel(string name)
+- SetArenaMaxRounds(int number)<br>How many rounds this arena will have ?
 
-- RemoveWorldAfterWin(boolean result) if you have something like winner cutscene, set this on false, but you have to send player into world 0 by your code.
+- SetArenaLabel(string name)
 
 - SetOwnWorld(boolean result) when players join to the arena it will create their own world with other players
 
@@ -124,6 +127,9 @@ if the value isnt set the arena will be there forever
 - SetArenaPublic(boolean value) <br>
 if true player will be able to acces arena from command /arena join [name]  
 if false that means you will have to use somewhere else this function "AddPlayer(int source)"
+
+- RemoveWorldAfterWin(boolean result) if you have something like winner cutscene, set this on false, but you have to send player into world 0 by your code.
+
 ------------
 
 ### Getting info about arena
@@ -133,6 +139,10 @@ if false that means you will have to use somewhere else this function "AddPlayer
 - GetMaximumCapacity()
 
 - GetMinimumCapacity()
+
+- GetMaximumRounds()
+
+- GetCurrentRound()
 
 - GetPlayerCount()
 
@@ -199,6 +209,8 @@ if false that means you will have to use somewhere else this function "AddPlayer
 - GetCurrentArenaData() returns array
 ```
 {
+    MaximumRoundSaved,
+    CurrentRound,
     ArenaIdentifier,
     ArenaLabel,
     MaximumCapacity,
@@ -212,21 +224,25 @@ if false that means you will have to use somewhere else this function "AddPlayer
 
 ------------
 
-- OnPlayerJoinArena(string arena, array data)<br>
+- OnPlayerJoinArena(string arena, cb)<br>
 Will be called whenever someone join arena
 
-- OnPlayerExitArena(string arena, array data)<br>
+- OnPlayerExitArena(string arena, cb)<br>
 Will be called whenever player leave arena
 
-- OnArenaStarted(string arena, array data)<br>
+- OnArenaStarted(string arena, cb)<br>
 Will be called whenever arena started game
 
-- OnArenaEnded(string arena, array data)<br>
+- OnArenaEnded(string arena, cb)<br>
 Will be called after arena runs out of time or player achieve enough points
+
+- OnArenaRoundEnd(string arena, cb)
 
 The array data returns
 ```
 {
+    MaximumRoundSaved,
+    CurrentRound,
     ArenaIdentifier,
     ArenaLabel,
     MaximumCapacity,

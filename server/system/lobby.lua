@@ -42,8 +42,21 @@ function UpdateArenaGame()
                 v.MaximumArenaTime = v.MaximumArenaTime - 1
                 if v.MaximumArenaTime == 0 then
                     v.MaximumArenaTime = v.MaximumArenaTimeSaved
-                    GetArenaInstance(k).Reset()
-                    TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(k))
+                    if v.CurrentRound then
+                        v.CurrentRound = v.CurrentRound - 1
+                        if v.CurrentRound == -1 then
+                            GetArenaInstance(k).Reset()
+                            TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(k))
+                        else
+                            if v.EventList.OnArenaRoundEnd then
+                                v.EventList.OnArenaRoundEnd(GetDefaultDataFromArena(k))
+                            end
+                            TriggerClientEvent("ArenaAPI:sendStatus", -1, "roundEnd", GetDefaultDataFromArena(k))
+                        end
+                    else
+                        GetArenaInstance(k).Reset()
+                        TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(k))
+                    end
                 end
             end
         end

@@ -10,6 +10,9 @@ function ArenaCreatorHelper(identifier)
         MinimumCapacity = 0,
         CurrentCapacity = 0,
         -----
+        MaximumRoundSaved = nil,
+        CurrentRound = nil,
+        -----
         DeleteWorldAfterWin = true,
         OwnWorld = false,
         OwnWorldID = 0,
@@ -33,6 +36,7 @@ function ArenaCreatorHelper(identifier)
         EventList = {
             OnPlayerJoinArena = nil,
             OnPlayerExitArena = nil,
+            OnArenaRoundEnd = nil,
             OnArenaStarted = nil,
             OnArenaEnded = nil,
         },
@@ -44,11 +48,15 @@ end
 function GetDefaultDataFromArena(identifier)
     local arena = ArenaCreatorHelper(identifier)
     return {
+        MaximumRoundSaved = arena.MaximumRoundSaved,
+        CurrentRound = arena.CurrentRound,
         ArenaIdentifier = arena.ArenaIdentifier,
         ArenaLabel = arena.ArenaLabel,
         MaximumCapacity = arena.MaximumCapacity,
         MinimumCapacity = arena.MinimumCapacity,
         CurrentCapacity = arena.CurrentCapacity,
+        MaximumArenaTimeSaved = arena.MaximumArenaTimeSaved,
+        MaximumLobbyTime = arena.MaximumLobbyTime,
     }
 end
 

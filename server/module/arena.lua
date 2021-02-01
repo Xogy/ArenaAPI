@@ -54,6 +54,21 @@ function CreateArena(identifier)
         return arena.ArenaLabel
     end
     --------
+    self.SetArenaMaxRounds = function(rounds)
+        if arena.MaximumRoundSaved == nil then
+            arena.MaximumRoundSaved = rounds
+        end
+        arena.CurrentRound = rounds
+    end
+
+    self.GetMaximumRounds = function()
+        return arena.MaximumRoundSaved
+    end
+
+    self.GetCurrentRound = function()
+        return arena.CurrentRound
+    end
+    --------
     self.SetMaximumArenaTime = function(second)
         arena.MaximumArenaTime = second
         arena.MaximumArenaTimeSaved = second
@@ -204,6 +219,7 @@ function CreateArena(identifier)
         arena.ArenaState = "ArenaInactive"
 
         arena.MaximumArenaTime = arena.MaximumArenaTimeSaved
+        arena.CurrentRound = arena.MaximumRoundSaved
     end
     --------------------------------------------
     --         Basic events for arena         --
@@ -222,6 +238,10 @@ function CreateArena(identifier)
 
     self.OnArenaEnded = function(cb)
         arena.EventList.OnArenaEnded = cb
+    end
+
+    self.OnArenaRoundEnd = function(cb)
+        arena.EventList.OnArenaRoundEnd = cb
     end
     --------------------------------------------
     return self
