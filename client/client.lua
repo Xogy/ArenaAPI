@@ -43,8 +43,8 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
     end
 
     if type == "start" then
-        if event and event.OnArenaStarted and PlayerData.CurrentArena == arena then
-            event.OnArenaStarted(data)
+        if event and event.OnArenaStart and PlayerData.CurrentArena == arena then
+            event.OnArenaStart(data)
         end
         if PlayerData.CurrentArena == arena then
             IsArenaBusy = true
@@ -52,8 +52,8 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
     end
 
     if type == "end" then
-        if event and event.OnArenaEnded and PlayerData.CurrentArena == arena then
-            event.OnArenaEnded(data)
+        if event and event.OnArenaEnd and PlayerData.CurrentArena == arena then
+            event.OnArenaEnd(data)
         end
         if ArenaData[arena].MaximumArenaTime then
             ArenaData[arena].MaximumArenaTime = data.MaximumLobbyTime + 1
@@ -65,8 +65,8 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
 
     if type == "join" then
         PlayerData.CurrentArena = data.ArenaIdentifier
-        if event and event.OnPlayerJoinArena and PlayerData.CurrentArena == arena then
-            event.OnPlayerJoinArena(data)
+        if event and event.OnPlayerJoinLobby and PlayerData.CurrentArena == arena then
+            event.OnPlayerJoinLobby(data)
         end
 
         SendNUIMessage({ type = "ui", status = true, })
@@ -75,8 +75,8 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
     end
 
     if type == "leave" then
-        if event and event.OnPlayerExitArena and PlayerData.CurrentArena == arena then
-            event.OnPlayerExitArena(data)
+        if event and event.OnPlayerExitLobby and PlayerData.CurrentArena == arena then
+            event.OnPlayerExitLobby(data)
         end
 
         if PlayerData.CurrentArena == arena then

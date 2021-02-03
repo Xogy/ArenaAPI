@@ -9,8 +9,8 @@ function UpdateLobbies()
                     v.MaximumLobbyTime = v.MaximumLobbyTimeSaved
 
                     v.ArenaState = "ArenaBusy"
-                    if v.EventList.OnArenaStarted then
-                        v.EventList.OnArenaStarted(GetDefaultDataFromArena(k))
+                    if v.EventList.OnArenaStart then
+                        v.EventList.OnArenaStart(GetDefaultDataFromArena(k))
                     end
 
                     if v.OwnWorld then

@@ -54,16 +54,16 @@
 
 ------------
 
-- OnPlayerJoinArena(annon function)<br>
+- OnPlayerJoinLobby(annon function)<br>
 Will be called whenever someone join arena
 
-- OnPlayerExitArena(annon function)<br>
+- OnPlayerExitLobby(annon function)<br>
 Will be called whenever player leave arena
 The array data returns
 
-- OnArenaStarted(annon function)
+- OnArenaStart(annon function)
 
-- OnArenaEnded(annon function)
+- OnArenaEnd(annon function)
 
 - OnArenaRoundEnd(annon function)
 ```
@@ -207,6 +207,7 @@ if false that means you will have to use somewhere else this function "AddPlayer
 - GetArenaCurrentSize()
 
 - GetCurrentArenaData() returns array
+- GetCurrentArenaData() returns array
 ```
 {
     MaximumRoundSaved,
@@ -224,16 +225,16 @@ if false that means you will have to use somewhere else this function "AddPlayer
 
 ------------
 
-- OnPlayerJoinArena(string arena, cb)<br>
+- OnPlayerJoinLobby(string arena, cb)<br>
 Will be called whenever someone join arena
 
-- OnPlayerExitArena(string arena, cb)<br>
+- OnPlayerExitLobby(string arena, cb)<br>
 Will be called whenever player leave arena
 
-- OnArenaStarted(string arena, cb)<br>
+- OnArenaStart(string arena, cb)<br>
 Will be called whenever arena started game
 
-- OnArenaEnded(string arena, cb)<br>
+- OnArenaEnd(string arena, cb)<br>
 Will be called after arena runs out of time or player achieve enough points
 
 - OnArenaRoundEnd(string arena, cb)

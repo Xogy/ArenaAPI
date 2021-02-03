@@ -34,11 +34,11 @@ function ArenaCreatorHelper(identifier)
         ArenaState = "ArenaInactive",
         -----
         EventList = {
-            OnPlayerJoinArena = nil,
-            OnPlayerExitArena = nil,
+            OnPlayerJoinLobby = nil,
+            OnPlayerExitLobby = nil,
             OnArenaRoundEnd = nil,
-            OnArenaStarted = nil,
-            OnArenaEnded = nil,
+            OnArenaStart = nil,
+            OnArenaEnd = nil,
         },
     }
 

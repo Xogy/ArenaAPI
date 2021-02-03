@@ -65,30 +65,30 @@ end
 
 exports("OnArenaRoundEnd", OnArenaRoundEnd)
 
-function OnPlayerJoinArena(arena, cb)
+function OnPlayerJoinLobby(arena, cb)
     InitEventData(arena)
-    EventData[arena].OnPlayerJoinArena = cb
+    EventData[arena].OnPlayerJoinLobby = cb
 end
 
-exports("OnPlayerJoinArena", OnPlayerJoinArena)
+exports("OnPlayerJoinLobby", OnPlayerJoinLobby)
 
-function OnPlayerExitArena(arena, cb)
+function OnPlayerExitLobby(arena, cb)
     InitEventData(arena)
-    EventData[arena].OnPlayerExitArena = cb
+    EventData[arena].OnPlayerExitLobby = cb
 end
 
-exports("OnPlayerExitArena", OnPlayerExitArena)
+exports("OnPlayerExitLobby", OnPlayerExitLobby)
 
-function OnArenaStarted(arena, cb)
+function OnArenaStart(arena, cb)
     InitEventData(arena)
-    EventData[arena].OnArenaStarted = cb
+    EventData[arena].OnArenaStart = cb
 end
 
-exports("OnArenaStarted", OnArenaStarted)
+exports("OnArenaStart", OnArenaStart)
 
-function OnArenaEnded(arena, cb)
+function OnArenaEnd(arena, cb)
     InitEventData(arena)
-    EventData[arena].OnArenaEnded = cb
+    EventData[arena].OnArenaEnd = cb
 end
 
-exports("OnArenaEnded", OnArenaEnded)
+exports("OnArenaEnd", OnArenaEnd)

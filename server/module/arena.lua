@@ -108,10 +108,10 @@ function CreateArena(identifier)
 
             arena.CurrentCapacity = arena.CurrentCapacity + 1
 
-            if arena.EventList.OnPlayerJoinArena ~= nil then
+            if arena.EventList.OnPlayerJoinLobby ~= nil then
                 data.source = source
                 data.CurrentCapacity = arena.CurrentCapacity
-                arena.EventList.OnPlayerJoinArena(data)
+                arena.EventList.OnPlayerJoinLobby(data)
             end
 
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
@@ -141,10 +141,10 @@ function CreateArena(identifier)
                 arena.ArenaState = "ArenaInactive"
             end
 
-            if arena.EventList.OnPlayerExitArenad ~= nil then
+            if arena.EventList.OnPlayerExitLobby ~= nil then
                 data.source = source
                 data.CurrentCapacity = arena.CurrentCapacity
-                arena.EventList.OnPlayerExitArenad(data)
+                arena.EventList.OnPlayerExitLobby(data)
             end
 
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
@@ -191,9 +191,9 @@ function CreateArena(identifier)
     --        Basic manipulation arena        --
     --------------------------------------------
     self.Destroy = function()
-        if arena.EventList.OnArenaEnded then
+        if arena.EventList.OnArenaEnd then
             local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-            arena.EventList.OnArenaEnded(data)
+            arena.EventList.OnArenaEnd(data)
         end
 
         for k,v in pairs(arena.PlayerList) do
@@ -205,9 +205,9 @@ function CreateArena(identifier)
     end
     --------
     self.Reset = function()
-        if arena.EventList.OnArenaEnded then
+        if arena.EventList.OnArenaEnd then
             local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-            arena.EventList.OnArenaEnded(data)
+            arena.EventList.OnArenaEnd(data)
         end
 
         for k,v in pairs(arena.PlayerList) do
@@ -224,20 +224,20 @@ function CreateArena(identifier)
     --------------------------------------------
     --         Basic events for arena         --
     --------------------------------------------
-    self.OnPlayerJoinArena = function(cb)
-        arena.EventList.OnPlayerJoinArena = cb
+    self.OnPlayerJoinLobby = function(cb)
+        arena.EventList.OnPlayerJoinLobby = cb
     end
 
-    self.OnPlayerExitArena = function(cb)
-        arena.EventList.OnPlayerExitArena = cb
+    self.OnPlayerExitLobby = function(cb)
+        arena.EventList.OnPlayerExitLobby = cb
     end
 
-    self.OnArenaStarted = function(cb)
-        arena.EventList.OnArenaStarted = cb
+    self.OnArenaStart = function(cb)
+        arena.EventList.OnArenaStart = cb
     end
 
-    self.OnArenaEnded = function(cb)
-        arena.EventList.OnArenaEnded = cb
+    self.OnArenaEnd = function(cb)
+        arena.EventList.OnArenaEnd = cb
     end
 
     self.OnArenaRoundEnd = function(cb)
