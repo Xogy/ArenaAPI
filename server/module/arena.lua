@@ -118,6 +118,8 @@ function CreateArena(identifier)
 
             arena.ArenaState = "ArenaActive"
 
+            callOn('join', source, arena)
+
             TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData",  ArenaList)
             TriggerClientEvent("ArenaAPI:sendStatus", source, "join", data)
         end
@@ -148,6 +150,8 @@ function CreateArena(identifier)
             end
 
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
+
+            callOn('leave', source, arena)
 
             TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData",  ArenaList)
             if skipEvent == nil then TriggerClientEvent("ArenaAPI:sendStatus", source, "leave", data) end
@@ -200,6 +204,8 @@ function CreateArena(identifier)
             self.RemovePlayer(k)
         end
 
+        callOn('destroy', source, arena)
+
         TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(arena.ArenaIdentifier))
         ArenaList[identifier] = nil
     end
@@ -220,6 +226,8 @@ function CreateArena(identifier)
 
         arena.MaximumArenaTime = arena.MaximumArenaTimeSaved
         arena.CurrentRound = arena.MaximumRoundSaved
+
+        callOn('reset', source, arena)
     end
     --------------------------------------------
     --         Basic events for arena         --
@@ -242,6 +250,10 @@ function CreateArena(identifier)
 
     self.OnArenaRoundEnd = function(cb)
         arena.EventList.OnArenaRoundEnd = cb
+    end
+
+    self.on = function(eventName, cb)
+        return on(eventName, cb)
     end
     --------------------------------------------
     return self

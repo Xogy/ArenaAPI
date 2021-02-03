@@ -252,3 +252,23 @@ The array data returns
 ```
   
 ------------
+
+### Events differently
+#### server_side
+
+```lua
+local arenaBuilder = exports.ArenaAPI
+local arena = arenaBuilder:CreateArena("gungame_1")
+
+arena.on('join', function(playerSource, arena)
+  print(string.format('player %s has just joined arena %s', GetPlayerName(playerSource, arena.GetArenaIdentifier())))
+end)
+
+arena.on('leave', function(playerSource, arena)
+  print(string.format('player %s has just leave arena %s', GetPlayerName(playerSource, arena.GetArenaIdentifier())))
+
+  if arena.GetArenaCurrentSize() < 3 then
+    arena.Reset()
+  end
+end)
+```
