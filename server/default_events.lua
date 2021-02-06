@@ -12,3 +12,7 @@ AddEventHandler("ArenaAPI:PlayerJoinedFivem", function()
     PlayerInfo[source] = "none"
     CooldownPlayers[source] = { }
 end)
+
+AddEventHandler('onResourceStop', function(resourceName)
+    RemoveEventsWithNameResource(resourceName)
+end)

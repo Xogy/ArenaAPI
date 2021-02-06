@@ -99,20 +99,16 @@ function CreateArena(identifier)
     --------------------------------------------
     self.AddPlayer = function(source)
         if arena.PlayerList[source] == nil then
-            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-
-            PlayerInfo[source] = data.ArenaIdentifier
+            PlayerInfo[source] = arena.ArenaIdentifier
             arena.PlayerList[source] = true
             arena.PlayerScoreList[source] = {}
             arena.PlayerNameList[source] = GetPlayerName(source):gsub("<[^>]+>", " ")
 
             arena.CurrentCapacity = arena.CurrentCapacity + 1
 
-            if arena.EventList.OnPlayerJoinLobby ~= nil then
-                data.source = source
-                data.CurrentCapacity = arena.CurrentCapacity
-                arena.EventList.OnPlayerJoinLobby(data)
-            end
+            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
+
+            CallOn(identifier, "join", source, data)
 
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
 
@@ -125,8 +121,6 @@ function CreateArena(identifier)
     --------
     self.RemovePlayer = function(source, skipEvent)
         if arena.PlayerList[source] ~= nil then
-            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-
             if arena.DeleteWorldAfterWin then
                 SetPlayerRoutingBucket(source, 0)
             end
@@ -141,11 +135,9 @@ function CreateArena(identifier)
                 arena.ArenaState = "ArenaInactive"
             end
 
-            if arena.EventList.OnPlayerExitLobby ~= nil then
-                data.source = source
-                data.CurrentCapacity = arena.CurrentCapacity
-                arena.EventList.OnPlayerExitLobby(data)
-            end
+            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
+
+            CallOn(identifier, "leave", source, data)
 
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
 
@@ -191,10 +183,7 @@ function CreateArena(identifier)
     --        Basic manipulation arena        --
     --------------------------------------------
     self.Destroy = function()
-        if arena.EventList.OnArenaEnd then
-            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-            arena.EventList.OnArenaEnd(data)
-        end
+        CallOn(identifier, "end", arena)
 
         for k,v in pairs(arena.PlayerList) do
             self.RemovePlayer(k)
@@ -205,10 +194,7 @@ function CreateArena(identifier)
     end
     --------
     self.Reset = function()
-        if arena.EventList.OnArenaEnd then
-            local data = GetDefaultDataFromArena(arena.ArenaIdentifier)
-            arena.EventList.OnArenaEnd(data)
-        end
+        CallOn(identifier, "end", arena)
 
         for k,v in pairs(arena.PlayerList) do
             self.RemovePlayer(k, true)
@@ -224,24 +210,28 @@ function CreateArena(identifier)
     --------------------------------------------
     --         Basic events for arena         --
     --------------------------------------------
-    self.OnPlayerJoinLobby = function(cb)
-        arena.EventList.OnPlayerJoinLobby = cb
+    self.OnPlayerJoinLobby = function(cb, test)
+        return On(identifier, "join", cb)
     end
 
     self.OnPlayerExitLobby = function(cb)
-        arena.EventList.OnPlayerExitLobby = cb
+        return On(identifier, "leave", cb)
     end
 
     self.OnArenaStart = function(cb)
-        arena.EventList.OnArenaStart = cb
+        return On(identifier, "start", cb)
     end
 
     self.OnArenaEnd = function(cb)
-        arena.EventList.OnArenaEnd = cb
+        return On(identifier, "end", cb)
     end
 
     self.OnArenaRoundEnd = function(cb)
-        arena.EventList.OnArenaRoundEnd = cb
+        return On(identifier, "roundEnd", cb)
+    end
+
+    self.On = function(eventName, cb)
+        return On(identifier, eventName, cb)
     end
     --------------------------------------------
     return self

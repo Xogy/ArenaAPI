@@ -54,18 +54,22 @@
 
 ------------
 
-- OnPlayerJoinLobby(annon function)<br>
+- OnPlayerJoinLobby(cb)<br>
 Will be called whenever someone join arena
 
-- OnPlayerExitLobby(annon function)<br>
+- OnPlayerExitLobby(cb)<br>
 Will be called whenever player leave arena
 The array data returns
 
-- OnArenaStart(annon function)
+- OnArenaStart(cb)
 
-- OnArenaEnd(annon function)
+- OnArenaEnd(cb)
 
-- OnArenaRoundEnd(annon function)
+- OnArenaRoundEnd(cb)
+
+- On(cb)<br>
+if the event is join/leave there is first argument source, second is arena instance<br>
+for others such a like end,start etc, there is only one argument, and thats the arena instance.
 ```
 {
     MaximumRoundSaved,
@@ -75,7 +79,6 @@ The array data returns
     MaximumCapacity,
     MinimumCapacity,
     CurrentCapacity,
-    source, -- Started/Ended events doesnt have this argument
 }
 ```
   
@@ -87,6 +90,17 @@ local arena = arenaBuilder:GetArenaInstance("MyArena")
 
 arena.PlayerJoinArena(function(data)
     TriggerClientEvent("showNotification", data.source, "Welcome to the arena: " .. data.ArenaLabel)
+end)
+```
+
+Second example of events
+```LUA
+local arenaBuilder = exports.ArenaAPI
+
+local arena = arenaBuilder:GetArenaInstance("MyArena")
+
+arena.On("join",function(source, data)
+    TriggerClientEvent("showNotification", source, "Welcome to the arena: " .. data.ArenaLabel)
 end)
 ```
   
@@ -238,6 +252,8 @@ Will be called whenever arena started game
 Will be called after arena runs out of time or player achieve enough points
 
 - OnArenaRoundEnd(string arena, cb)
+
+- On(string arena, string eventName, cb)
 
 The array data returns
 ```

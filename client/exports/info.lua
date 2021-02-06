@@ -57,38 +57,3 @@ function GetCurrentArenaData(identifier)
 end
 
 exports("GetCurrentArenaData", GetCurrentArenaData)
-
-function OnArenaRoundEnd(arena, cb)
-    InitEventData(arena)
-    EventData[arena].OnArenaRoundEnd = cb
-end
-
-exports("OnArenaRoundEnd", OnArenaRoundEnd)
-
-function OnPlayerJoinLobby(arena, cb)
-    InitEventData(arena)
-    EventData[arena].OnPlayerJoinLobby = cb
-end
-
-exports("OnPlayerJoinLobby", OnPlayerJoinLobby)
-
-function OnPlayerExitLobby(arena, cb)
-    InitEventData(arena)
-    EventData[arena].OnPlayerExitLobby = cb
-end
-
-exports("OnPlayerExitLobby", OnPlayerExitLobby)
-
-function OnArenaStart(arena, cb)
-    InitEventData(arena)
-    EventData[arena].OnArenaStart = cb
-end
-
-exports("OnArenaStart", OnArenaStart)
-
-function OnArenaEnd(arena, cb)
-    InitEventData(arena)
-    EventData[arena].OnArenaEnd = cb
-end
-
-exports("OnArenaEnd", OnArenaEnd)

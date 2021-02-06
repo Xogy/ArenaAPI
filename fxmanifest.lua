@@ -2,13 +2,15 @@ fx_version 'adamant'
 games { 'gta5' }
 
 client_scripts {
+    "client/system/*.lua",
+    "client/exports/*.lua",
     "client/*.lua",
 }
 
 server_script {
     "server/main.lua",
-    "server/events.lua",
-    "server/exports.lua",
+    "server/default_events.lua",
+    "server/exports/*.lua",
     "server/module/*.lua",
     "server/system/*.lua",
 }

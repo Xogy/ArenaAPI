@@ -33,31 +33,13 @@ function ArenaCreatorHelper(identifier)
         -----
         ArenaState = "ArenaInactive",
         -----
-        EventList = {
-            OnPlayerJoinLobby = nil,
-            OnPlayerExitLobby = nil,
-            OnArenaRoundEnd = nil,
-            OnArenaStart = nil,
-            OnArenaEnd = nil,
-        },
     }
 
     return ArenaList[identifier]
 end
 
 function GetDefaultDataFromArena(identifier)
-    local arena = ArenaCreatorHelper(identifier)
-    return {
-        MaximumRoundSaved = arena.MaximumRoundSaved,
-        CurrentRound = arena.CurrentRound,
-        ArenaIdentifier = arena.ArenaIdentifier,
-        ArenaLabel = arena.ArenaLabel,
-        MaximumCapacity = arena.MaximumCapacity,
-        MinimumCapacity = arena.MinimumCapacity,
-        CurrentCapacity = arena.CurrentCapacity,
-        MaximumArenaTimeSaved = arena.MaximumArenaTimeSaved,
-        MaximumLobbyTime = arena.MaximumLobbyTime,
-    }
+    return ArenaCreatorHelper(identifier)
 end
 
 function SendMessage(source, string)
