@@ -32,6 +32,7 @@ AddEventHandler("ArenaAPI:sendStatus", function(type, data)
         if PlayerData.CurrentArena == arena then
             IsArenaBusy = false
         end
+        PlayerData.CurrentArena = "none"
     end
 
     if type == "join" then
