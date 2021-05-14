@@ -5,6 +5,12 @@ PlayerData = {
     CurrentArena = "none",
 }
 
+-- stolen from https://scriptinghelpers.org/questions/43622/how-do-i-turn-seconds-to-minutes-and-seconds
+function DecimalsToMinutes(dec)
+    local ms = tonumber(dec)
+    return math.floor(ms / 60) .. ":" .. (ms % 60)
+end
+
 function UpdatePlayerNameList()
     if IsPlayerInAnyArena() then
         local arena = GetPlayerArena()
@@ -30,7 +36,7 @@ CreateThread(function()
             if data.MaximumArenaTime ~= nil and data.MaximumArenaTime > 1 then
                 data.MaximumArenaTime = data.MaximumArenaTime - 1
                 BeginTextCommandPrint('STRING')
-                AddTextComponentSubstringPlayerName(data.MaximumArenaTime .. " seconds left")
+                AddTextComponentSubstringPlayerName(DecimalsToMinutes(data.MaximumArenaTime) .. " time left")
                 EndTextCommandPrint(1000, 1)
             end
         end

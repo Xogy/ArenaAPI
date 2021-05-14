@@ -1,3 +1,5 @@
+-- Just holder for arena virtual world ID
+ClaimedVirtualWorld = {}
 
 
 function CreateArena(identifier)
@@ -6,20 +8,31 @@ function CreateArena(identifier)
     --------------------------------------------
     local self = {}
     --------------------------------------------
-    --     Basic information about arena      --
+    -- Basic information about arena      --
     --------------------------------------------
     self.SetOwnWorld = function(result)
         arena.OwnWorld = result
         if result then
             if ArenaList[identifier].OwnWorldID == 0 then
-                WorldCount = WorldCount + 1
-                ArenaList[identifier].OwnWorldID = WorldCount
+                local newID = 0
+                for i = 1, 64 do
+                    if not ClaimedVirtualWorld[i] then
+                        newID = i
+                        ClaimedVirtualWorld[i] = i
+                        break
+                    end
+                end
+                if newID == 0 then
+                    print("WARNING the poolsize of virtual worlds have run out! Delete some Arena lobbies to make space!")
+                else
+                    ArenaList[identifier].OwnWorldID = newID
+                end
             end
         end
     end
 
     self.GetOwnWorld = function()
-        return arena.OwnWorld,arena.OwnWorldID
+        return arena.OwnWorld, arena.OwnWorldID
     end
     --------
     self.RemoveWorldAfterWin = function(result)
@@ -95,7 +108,7 @@ function CreateArena(identifier)
         return arena.ArenaIsPublic
     end
     --------------------------------------------
-    --     Adding player into arena logic     --
+    -- Adding player into arena logic     --
     --------------------------------------------
     self.AddPlayer = function(source)
         if arena.PlayerList[source] == nil then
@@ -114,7 +127,7 @@ function CreateArena(identifier)
 
             arena.ArenaState = "ArenaActive"
 
-            TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData",  ArenaList)
+            TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData", ArenaList)
             TriggerClientEvent("ArenaAPI:sendStatus", source, "join", data)
         end
     end
@@ -141,7 +154,7 @@ function CreateArena(identifier)
 
             arena.MaximumLobbyTime = arena.MaximumLobbyTimeSaved
 
-            TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData",  ArenaList)
+            TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData", ArenaList)
             if skipEvent == nil then TriggerClientEvent("ArenaAPI:sendStatus", source, "leave", data) end
         end
     end
@@ -154,7 +167,7 @@ function CreateArena(identifier)
         return arena.PlayerList[source] ~= nil
     end
     --------------------------------------------
-    --       Setting player score logic       --
+    -- Setting player score logic       --
     --------------------------------------------
     self.SetPlayerScore = function(source, key, value)
         arena.PlayerScoreList[source][key] = value
@@ -180,15 +193,16 @@ function CreateArena(identifier)
         arena.PlayerScoreList[source][key] = nil
     end
     --------------------------------------------
-    --        Basic manipulation arena        --
+    -- Basic manipulation arena        --
     --------------------------------------------
     self.Destroy = function()
         CallOn(identifier, "end", arena)
 
-        for k,v in pairs(arena.PlayerList) do
+        for k, v in pairs(arena.PlayerList) do
             self.RemovePlayer(k)
         end
 
+        ClaimedVirtualWorld[ArenaList[identifier].OwnWorldID] = nil
         TriggerClientEvent("ArenaAPI:sendStatus", -1, "end", GetDefaultDataFromArena(arena.ArenaIdentifier))
         ArenaList[identifier] = nil
     end
@@ -196,9 +210,11 @@ function CreateArena(identifier)
     self.Reset = function()
         CallOn(identifier, "end", arena)
 
-        for k,v in pairs(arena.PlayerList) do
+        for k, v in pairs(arena.PlayerList) do
             self.RemovePlayer(k, true)
         end
+
+        ClaimedVirtualWorld[ArenaList[identifier].OwnWorldID] = nil
 
         arena.PlayerList = {}
         arena.PlayerScoreList = {}
@@ -208,7 +224,7 @@ function CreateArena(identifier)
         arena.CurrentRound = arena.MaximumRoundSaved
     end
     --------------------------------------------
-    --         Basic events for arena         --
+    -- Basic events for arena         --
     --------------------------------------------
     self.OnPlayerJoinLobby = function(cb, test)
         return On(identifier, "join", cb)
