@@ -1,10 +1,15 @@
+----------------------------------------
+--- Variables
+----------------------------------------
 IsArenaBusy = false
 
 ArenaData = {}
 PlayerData = {
     CurrentArena = "none",
 }
-
+----------------------------------------
+--- Functions
+----------------------------------------
 -- stolen from https://scriptinghelpers.org/questions/43622/how-do-i-turn-seconds-to-minutes-and-seconds
 function DecimalsToMinutes(dec)
     local ms = tonumber(dec)
@@ -22,7 +27,9 @@ function UpdatePlayerNameList()
         SendNUIMessage({ type = "playerNameList", Names = names, })
     end
 end
-
+----------------------------------------
+--- threads
+----------------------------------------
 CreateThread(function()
     TriggerServerEvent("ArenaAPI:PlayerJoinedFivem")
 end)

@@ -1,7 +1,8 @@
 -- Just holder for arena virtual world ID
 ClaimedVirtualWorld = {}
 
-
+-- Will return + create Arena lobby
+--- @param identifier string
 function CreateArena(identifier)
     ArenaCreatorHelper(identifier)
     local arena = ArenaList[identifier]

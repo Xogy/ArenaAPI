@@ -1,3 +1,5 @@
+-- Checking every lobby if they're ready if so we will set each player into
+-- arena virtual world + calling the event "OnStart"
 function UpdateLobbies()
     SetTimeout(1000, UpdateLobbies)
 
@@ -31,6 +33,10 @@ end
 
 SetTimeout(1000, UpdateLobbies)
 
+-- This timer will and recount times left in the arena
+-- if the timer run to 0 and doesnt have any rounds left it
+-- will call event "onEnd" if there is round it will call
+-- "onRoundEnd"
 function UpdateArenaGame()
     SetTimeout(1000, UpdateArenaGame)
 

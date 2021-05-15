@@ -7,14 +7,22 @@ ValidEvents = {
     ["roundend"] = true,
 }
 
+-- Will check and return true/false if the event with identifier exists
+--- @param eventName string
 function ValidateEvents(eventName)
     return type(eventName) == "string" and ValidEvents[string.lower(eventName)] ~= nil
 end
 
+-- Will check and return true/false if the event with identifier exists
+--- @param identifier string
+--- @param eventName string
 function ValidateInvokingEvent(identifier, eventName)
     return Events[identifier] ~= nil and Events[identifier][eventName]
 end
 
+-- Will find and remove all events with the
+-- name of the resource
+--- @param nameResource string
 function RemoveEventsWithNameResource(nameResource)
     for identifier, v in pairs(Events) do
         for event, value in pairs(v) do
@@ -53,7 +61,9 @@ function On(identifier, eventName, cb)
 end
 
 --Call event
---@internal
+--- @param identifier string
+--- @param eventName string
+--- @param ... object
 function CallOn(identifier, eventName, ...)
     if ValidateInvokingEvent(identifier, eventName) then
         for key, value in pairs(Events[identifier][eventName]) do

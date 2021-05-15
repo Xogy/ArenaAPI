@@ -1,47 +1,63 @@
+----------------------------------------
+--- Variables
+----------------------------------------
 ArenaList = {}
 PlayerInfo = {}
 CooldownPlayers = {}
 WorldCount = 0
 ----------------------------------------
-function ArenaCreatorHelper(identifier)
+--- Functions
+----------------------------------------
+-- Arena creator helper, will set all default variables.
+--- @param identifier string
+--- @param identifier bool
+function ArenaCreatorHelper(identifier, ignore)
     if ArenaList[identifier] ~= nil then return ArenaList[identifier] end
-    ArenaList[identifier] = {
-        MaximumCapacity = 0,
-        MinimumCapacity = 0,
-        CurrentCapacity = 0,
-        -----
-        MaximumRoundSaved = nil,
-        CurrentRound = nil,
-        -----
-        DeleteWorldAfterWin = true,
-        OwnWorld = false,
-        OwnWorldID = 0,
-        -----
-        ArenaLabel = "",
-        ArenaIdentifier = identifier,
-        -----
-        MaximumArenaTime = nil,
-        MaximumArenaTimeSaved = nil,
-        MaximumLobbyTimeSaved = 30,
-        MaximumLobbyTime = 30,
-        -----
-        ArenaIsPublic = true,
-        -----
-        PlayerList = {},
-        PlayerScoreList = {},
-        PlayerNameList = {},
-        -----
-        ArenaState = "ArenaInactive",
-        -----
-    }
-
+    if not ignore then
+        ArenaList[identifier] = {
+            MaximumCapacity = 0,
+            MinimumCapacity = 0,
+            CurrentCapacity = 0,
+            -----
+            MaximumRoundSaved = nil,
+            CurrentRound = nil,
+            -----
+            DeleteWorldAfterWin = true,
+            OwnWorld = false,
+            OwnWorldID = 0,
+            -----
+            ArenaLabel = "",
+            ArenaIdentifier = identifier,
+            -----
+            MaximumArenaTime = nil,
+            MaximumArenaTimeSaved = nil,
+            MaximumLobbyTimeSaved = 30,
+            MaximumLobbyTime = 30,
+            -----
+            ArenaIsPublic = true,
+            -----
+            PlayerList = {},
+            PlayerScoreList = {},
+            PlayerNameList = {},
+            -----
+            ArenaState = "ArenaInactive",
+            -----
+        }
+        TriggerClientEvent("ArenaAPI:sendStatus", -1, "updateData", ArenaList)
+    end
     return ArenaList[identifier]
 end
 
+-- Will return data from "ArenaCreatorHelper" if arena does not exists
+-- it will return nil value
+--- @param identifier string
 function GetDefaultDataFromArena(identifier)
-    return ArenaCreatorHelper(identifier)
+    return ArenaCreatorHelper(identifier, true)
 end
 
+-- Well this will just send chat message to... player :D
+--- @param source int
+--- @param string string
 function SendMessage(source, string)
     TriggerClientEvent('chat:addMessage', source, {
         color = { 255, 255, 255 },
@@ -50,6 +66,7 @@ function SendMessage(source, string)
     })
 end
 
+-- This is command to handle logic for joining/leaving + blocking joining arena lobby
 RegisterCommand("minigame", function(source, args, rawCommand)
     if args[1] == "join" then
         local arenaName = args[2]
